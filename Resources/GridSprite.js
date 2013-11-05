@@ -74,9 +74,9 @@ GridSprite.recoveSprite = function(gem)
 
 GridSprite.releasePool = function()
 {
-    for(var i = 0; i < gSpritePool.length; i++)
+    for(var i = 0; i < GridSprite.gSpritePool.length; i++)
     {
-        gSpritePool[i].release();
+        GridSprite.gSpritePool[i].release();
     }
 }
 

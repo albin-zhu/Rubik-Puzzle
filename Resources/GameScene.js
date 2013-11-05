@@ -1136,15 +1136,15 @@ var GameScene = cc.Layer.extend({
                 this.boardSprites[idx] = null;
 
 //             Add particle effect
-//                var particle = cc.ParticleSystem.create("particles/taken-gem.plist");
-//                particle.setPosition(gemX * kGemSize+kGemSize/2, gemY*kGemSize+kGemSize/2);
-//                particle.setAutoRemoveOnFinish(true);
-//                this.particleLayer.addChild(particle);
-//                var s = cc.Director.getInstance().getWinSize();
-//
-//                var ac = cc.MoveTo.create(0.4, cc.p(s.width - 20, s.height - 20));
+                var particle = cc.ParticleSystem.create("particles/taken-gem.plist");
+                particle.setPosition(gemX * kGemSize+kGemSize/2, gemY*kGemSize+kGemSize/2);
+                particle.setAutoRemoveOnFinish(true);
+                this.particleLayer.addChild(particle);
+                var s = cc.Director.getInstance().getWinSize();
+
+                var ac = cc.MoveTo.create(0.4, cc.p(s.width - 20, s.height - 20));
 //                var ac = cc.BezierTo.create(0.4, [cc.p(-160, 350), cc.p(160, -350), cc.p(160, 350)]);
-//                particle.runAction(ac);
+                particle.runAction(ac);
             }
             this.nextState();
         }
