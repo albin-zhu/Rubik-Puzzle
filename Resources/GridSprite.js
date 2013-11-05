@@ -41,9 +41,9 @@ var GridSprite = cc.Sprite.extend(
 GridSprite.createWithType = function(type)
 {
     var g;
-    if(gSpritePool.length > 0)
+    if(GridSprite.gSpritePool.length > 0)
     {
-        g = gSpritePool.pop();
+        g = GridSprite.gSpritePool.pop();
         if(g.gemType != type)
         {
             g.setGemType(type);
@@ -68,7 +68,7 @@ GridSprite.recoveSprite = function(gem)
 	if(gem != undefined && gem != null)
 	{
     	gem.removeFromParent();
-	    gSpritePool.push(gem);
+	    GridSprite.gSpritePool.push(gem);
 	}
 }
 
@@ -79,3 +79,5 @@ GridSprite.releasePool = function()
         gSpritePool[i].release();
     }
 }
+
+GridSprite.gSpritePool = [];
