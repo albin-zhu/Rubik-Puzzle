@@ -189,9 +189,20 @@ var GameScene = cc.Layer.extend({
         this.lockSprite = GridSprite.createWithType(5);
         this.lockSprite.inLock = false;
         this.lockSprite.setAnchorPoint(cc.p(0.5, 0.5));
-        this.lockSprite.setGrid(kBoardWidth - 1, kBoardHeight + 2);
-        this.lockSprite.setPosition(cc.p(kGemSize * (kBoardWidth - 1), kGemSize * (kBoardHeight + 2)));
+        this.lockSprite.setGrid(kBoardWidth - 1, kBoardHeight + 1);
+        this.lockSprite.setPosition(cc.p(kGemSize * (kBoardWidth - 1), kGemSize * (kBoardHeight + 1)));
         this.gemLayer.addChild(this.lockSprite);
+        
+        var s = cc.Director.getInstance().getWinSize();
+        var w = s.width / kNumTypes;
+        var h = s.height - 150
+        
+        for(var i = 0; i < kNumTypes; i++)
+        {
+        	var sp = GridSprite.createWithType(i);
+        	sp.setPosition(cc.p(w * i, h));
+        	this.gemLayer.addChild(sp);
+        }
     },
 
     initMarker : function()
@@ -1130,19 +1141,26 @@ var GameScene = cc.Layer.extend({
                 var idx = gem.x + gem.y * kBoardWidth;
                 var gemX = gem.x;
                 var gemY = gem.y;
+                
+                var type = this.board[idx];
+                var plz = "particles/tagken-0" + type + ".plist"
+               	if(type >= kNumTypes || type < 0)
+               	{
+               		plz = "particles/taken-gem.plist";
+               	}
 
                 this.board[idx] = -1;
                 GridSprite.recoveSprite(this.boardSprites[idx]);
                 this.boardSprites[idx] = null;
 
 //             Add particle effect
-                var particle = cc.ParticleSystem.create("particles/taken-gem.plist");
+                var particle = cc.ParticleSystem.create(plz);
                 particle.setPosition(gemX * kGemSize+kGemSize/2, gemY*kGemSize+kGemSize/2);
                 particle.setAutoRemoveOnFinish(true);
                 this.particleLayer.addChild(particle);
                 var s = cc.Director.getInstance().getWinSize();
 
-                var ac = cc.MoveTo.create(0.4, cc.p(s.width - 20, s.height - 20));
+                var ac = cc.MoveTo.create(0.9, cc.p(s.width * type / (kNumTypes) + kGemSize / 2, s.height - 150));
 //                var ac = cc.BezierTo.create(0.4, [cc.p(-160, 350), cc.p(160, -350), cc.p(160, 350)]);
                 particle.runAction(ac);
             }
