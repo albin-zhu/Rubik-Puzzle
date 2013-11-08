@@ -77,7 +77,7 @@ var GameScene = cc.Layer.extend({
     onDidLoadFromCCB : function()
     {
         var w = cc.Director.getInstance().getWinSize().width;
-        if(w > kBoardWidth * kGemSize)
+        if(w > kBoardWidth * kGemSize * 2)
         {
             kGemSize *= 2;
         }
@@ -108,13 +108,13 @@ var GameScene = cc.Layer.extend({
 
         this.rootNode.schedule(function(dt){this.controller.onUpdate(dt);});
 
-        if ("opengl" in sys.capabilities)
-        {
-            cc.log("On mobile");
-            this.particleLayer = cc.ParticleBatchNode.create("particles/taken-gem.png", 250);
-            this.gemLayer = cc.SpriteBatchNode.create("crystals.png");
-        }
-        else
+//        if ("opengl" in sys.capabilities)
+//        {
+//            cc.log("On mobile");
+//            this.particleLayer = cc.ParticleBatchNode.create("particles/taken-gem.png", 250);
+//            this.gemLayer = cc.SpriteBatchNode.create("crystals.png");
+//        }
+//        else
         {
             cc.log("On web");
             this.particleLayer = cc.Node.create();
@@ -173,7 +173,7 @@ var GameScene = cc.Layer.extend({
 
         this.infoScoreLabel = cc.LabelTTF.create("1234567890ASDFGHJKSDLF", "Arial", 24);
         var size = cc.Director.getInstance().getWinSize();
-        this.infoScoreLabel.setPosition(cc.p(size.width / 2, size.height - 100));
+        this.infoScoreLabel.setPosition(cc.p(size.width / 2, kGemSize * (kBoardHeight + 1)));
         this.gameLayer.addChild(this.infoScoreLabel);
 
 
@@ -195,7 +195,7 @@ var GameScene = cc.Layer.extend({
         
         var s = cc.Director.getInstance().getWinSize();
         var w = s.width / kNumTypes;
-        var h = s.height - 150
+        var h = kGemSize * (kBoardHeight + 3);
         
         for(var i = 0; i < kNumTypes; i++)
         {
@@ -1153,6 +1153,7 @@ var GameScene = cc.Layer.extend({
                 GridSprite.recoveSprite(this.boardSprites[idx]);
                 this.boardSprites[idx] = null;
 
+				 var h = kGemSize * (kBoardHeight + 3);
 //             Add particle effect
                 var particle = cc.ParticleSystem.create(plz);
                 particle.setPosition(gemX * kGemSize+kGemSize/2, gemY*kGemSize+kGemSize/2);
@@ -1160,7 +1161,7 @@ var GameScene = cc.Layer.extend({
                 this.particleLayer.addChild(particle);
                 var s = cc.Director.getInstance().getWinSize();
 
-                var ac = cc.MoveTo.create(0.9, cc.p(s.width * type / (kNumTypes) + kGemSize / 2, s.height - 150));
+                var ac = cc.MoveTo.create(0.9, cc.p(s.width * type / (kNumTypes) + kGemSize / 2,  h));
 //                var ac = cc.BezierTo.create(0.4, [cc.p(-160, 350), cc.p(160, -350), cc.p(160, 350)]);
                 particle.runAction(ac);
             }
